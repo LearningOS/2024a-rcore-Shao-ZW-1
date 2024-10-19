@@ -51,10 +51,15 @@ pub struct StackFrameAllocator {
 }
 
 impl StackFrameAllocator {
+    /// Init StackFrameAllocator
     pub fn init(&mut self, l: PhysPageNum, r: PhysPageNum) {
         self.current = l.0;
         self.end = r.0;
         // trace!("last {} Physical Frames.", self.end - self.current);
+    }
+    /// Get unused page cnt
+    pub fn unused_cnt(&self) -> usize {
+        self.end - self.current + self.recycled.len()
     }
 }
 impl FrameAllocator for StackFrameAllocator {
